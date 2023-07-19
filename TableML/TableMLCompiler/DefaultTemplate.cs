@@ -9,30 +9,7 @@ namespace TableML.Compiler
     {
         #region LicenseStr
         
-        public static string LicenseStr = @"#region Copyright (c) 2015 KEngine / Kelly <http://github.com/mr-kelly>, All rights reserved.
-
-// KEngine - Asset Bundle framework for Unity3D
-// ===================================
-// 
-// Author:  Kelly
-// Email: 23110388@qq.com
-// Github: https://github.com/mr-kelly/KEngine
-// 
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Lesser General Public
-// License as published by the Free Software Foundation; either
-// version 3.0 of the License, or (at your option) any later version.
-// 
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Lesser General Public License for more details.
-// 
-// You should have received a copy of the GNU Lesser General Public
-// License along with this library.
-
-#endregion
-";
+        public static string LicenseStr = @"";
         #endregion
 
         #region 全部表的代码生成到一个cs中
@@ -44,6 +21,7 @@ namespace TableML.Compiler
 
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using KEngine;
 using KEngine.Modules;
 using TableML;
@@ -90,6 +68,18 @@ namespace {{ NameSpace }}
 	        }
 	    }
 
+	    public static async UniTask AllSettingsInit()
+	    {
+		    for (var i = 0; i < SettingsList.Length; i++)
+		    {
+			    var settings = SettingsList[i];
+			    {
+				    await settings.Init();
+			    }
+
+		    }
+	    }
+
     }
 
 {% for file in Files %}
@@ -133,28 +123,15 @@ namespace {{ NameSpace }}
             if (ReloadCount == 0)
             {
                 _instance._ReloadAll(true);
-    #if UNITY_EDITOR
-                if (SettingModule.IsFileSystemMode)
-                {
-                    for (var j = 0; j < TabFilePaths.Length; j++)
-                    {
-                        var tabFilePath = TabFilePaths[j];
-                        SettingModule.WatchSetting(tabFilePath, (path) =>
-                        {
-                            if (path.Replace(""\\"", ""/"").EndsWith(path))
-                            {
-                                _instance.ReloadAll();
-                                Log.LogConsole_MultiThread(""File Watcher! Reload success! -> "" + path);
-                            }
-                        });
-                    }
-
-                }
-    #endif
             }
 
 	        return _instance;
 	    }
+
+        public async UniTask Init()
+        {
+            await _ReloadAll(true);
+        }
         
         public int Count
         {
@@ -183,14 +160,14 @@ namespace {{ NameSpace }}
         /// <summary>
         /// Do reload the setting file: {{ file.ClassName }}
         /// </summary>
-	    void _ReloadAll(bool throwWhenDuplicatePrimaryKey, string customContent = null)
+	    async UniTask _ReloadAll(bool throwWhenDuplicatePrimaryKey, string customContent = null)
         {
             for (var j = 0; j < TabFilePaths.Length; j++)
             {
                 var tabFilePath = TabFilePaths[j];
                 TableFile tableFile;
                 if (customContent == null)
-                    tableFile = SettingModule.Get(tabFilePath, false);
+                    tableFile = await SettingModule.Get(tabFilePath, false);
                 else
                     tableFile = TableFile.LoadFromString(customContent);
 
@@ -306,6 +283,7 @@ namespace {{ NameSpace }}
 
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using KEngine;
 using KEngine.Modules;
 using TableML;
@@ -352,6 +330,18 @@ namespace {{ NameSpace }}
 	        }
 	    }
 
+	    public static async UniTask AllSettingsInit()
+	    {
+		    for (var i = 0; i < SettingsList.Length; i++)
+		    {
+			    var settings = SettingsList[i];
+			    {
+				    await settings.Init();
+			    }
+
+		    }
+	    }
+
     }
 }
 ");
@@ -367,6 +357,7 @@ namespace {{ NameSpace }}
 
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using KEngine;
 using KEngine.Modules;
 using TableML;
@@ -414,28 +405,15 @@ namespace {{ NameSpace }}
             if (ReloadCount == 0)
             {
                 _instance._ReloadAll(true);
-    #if UNITY_EDITOR
-                if (SettingModule.IsFileSystemMode)
-                {
-                    for (var j = 0; j < TabFilePaths.Length; j++)
-                    {
-                        var tabFilePath = TabFilePaths[j];
-                        SettingModule.WatchSetting(tabFilePath, (path) =>
-                        {
-                            if (path.Replace(""\\"", ""/"").EndsWith(path))
-                            {
-                                _instance.ReloadAll();
-                                Log.LogConsole_MultiThread(""File Watcher! Reload success! -> "" + path);
-                            }
-                        });
-                    }
-
-                }
-    #endif
             }
 
 	        return _instance;
 	    }
+
+        public async UniTask Init()
+        {
+            await _ReloadAll(true);
+        }
         
         public int Count
         {
@@ -464,14 +442,14 @@ namespace {{ NameSpace }}
         /// <summary>
         /// Do reload the setting file: {{ file.ClassName }}
         /// </summary>
-	    void _ReloadAll(bool throwWhenDuplicatePrimaryKey, string customContent = null)
+	    async UniTask _ReloadAll(bool throwWhenDuplicatePrimaryKey, string customContent = null)
         {
             for (var j = 0; j < TabFilePaths.Length; j++)
             {
                 var tabFilePath = TabFilePaths[j];
                 TableFile tableFile;
                 if (customContent == null)
-                    tableFile = SettingModule.Get(tabFilePath, false);
+                    tableFile = await SettingModule.Get(tabFilePath, false);
                 else
                     tableFile = TableFile.LoadFromString(customContent);
 
