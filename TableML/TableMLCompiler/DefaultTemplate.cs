@@ -120,11 +120,6 @@ namespace {{ NameSpace }}
         /// <returns></returns>
 	    public static {{file.ClassName}}Settings GetInstance()
 	    {
-            if (ReloadCount == 0)
-            {
-                _instance._ReloadAll(true);
-            }
-
 	        return _instance;
 	    }
 
@@ -144,17 +139,17 @@ namespace {{ NameSpace }}
         /// <summary>
         /// Do reload the setting file: {{ file.ClassName }}, no exception when duplicate primary key
         /// </summary>
-        public void ReloadAll()
+        public async void ReloadAll()
         {
-            _ReloadAll(false);
+            await _ReloadAll(false);
         }
 
         /// <summary>
         /// Do reload the setting class : {{ file.ClassName }}, no exception when duplicate primary key, use custom string content
         /// </summary>
-        public void ReloadAllWithString(string context)
+        public async void ReloadAllWithString(string context)
         {
-            _ReloadAll(false, context);
+            await _ReloadAll(false, context);
         }
 
         /// <summary>
@@ -402,11 +397,6 @@ namespace {{ NameSpace }}
         /// <returns></returns>
 	    public static {{file.ClassName}}Settings GetInstance()
 	    {
-            if (ReloadCount == 0)
-            {
-                _instance._ReloadAll(true);
-            }
-
 	        return _instance;
 	    }
 
@@ -426,17 +416,17 @@ namespace {{ NameSpace }}
         /// <summary>
         /// Do reload the setting file: {{ file.ClassName }}, no exception when duplicate primary key
         /// </summary>
-        public void ReloadAll()
+        public async void ReloadAll()
         {
-            _ReloadAll(false);
+            await _ReloadAll(false);
         }
 
         /// <summary>
         /// Do reload the setting class : {{ file.ClassName }}, no exception when duplicate primary key, use custom string content
         /// </summary>
-        public void ReloadAllWithString(string context)
+        public async void ReloadAllWithString(string context)
         {
-            _ReloadAll(false, context);
+            await _ReloadAll(false, context);
         }
 
         /// <summary>
